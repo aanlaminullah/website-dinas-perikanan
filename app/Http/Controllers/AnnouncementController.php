@@ -2,29 +2,107 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AnnouncementController extends Controller
 {
+    // -------------------------------------------------------
+    // PUBLIK
+    // -------------------------------------------------------
     public function index()
     {
-        // Data dummy, nantinya bisa diambil dari database menggunakan model
-        $announcements = [
-            [
-                'title' => 'Pendaftaran Kartu KUSUKA bagi Nelayan Kecil',
-                'date' => '11 September 2025',
-                'category' => 'Layanan',
-                'description' => 'Pemerintah membuka pendaftaran kartu KUSUKA untuk memudahkan akses bantuan.'
-            ],
-            [
-                'title' => 'Peringatan Gelombang Tinggi Perairan Utara',
-                'date' => '08 Juli 2025',
-                'category' => 'Keamanan',
-                'description' => 'Dihimbau kepada nelayan untuk waspada terhadap potensi gelombang tinggi.'
-            ],
-            // Tambahkan data lainnya...
-        ];
+        $announcements = Announcement::orderBy('date', 'desc')->get();
 
         return view('announcements.index', compact('announcements'));
+    }
+
+    // -------------------------------------------------------
+    // ADMIN CRUD
+    // -------------------------------------------------------
+    public function adminIndex()
+    {
+        $announcements = Announcement::orderBy('date', 'desc')->paginate(10);
+
+        return view('admin.announcements.index', compact('announcements'));
+    }
+
+    public function create()
+    {
+        return view('admin.announcements.create');
+    }
+
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'category'    => 'required|string|max:100',
+            'description' => 'required|string',
+            'date'        => 'required|date',
+            'attachment'  => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+        ], [
+            'attachment.mimes' => 'Format lampiran harus PDF, DOC, atau DOCX.',
+            'attachment.max'   => 'Ukuran lampiran maksimal 5MB.',
+        ]);
+
+        if ($request->hasFile('attachment')) {
+            $validated['attachment'] = $request->file('attachment')
+                ->store('announcements', 'public');
+        }
+
+        Announcement::create($validated);
+
+        return redirect()
+            ->route('admin.announcements.index')
+            ->with('success', 'Pengumuman berhasil ditambahkan.');
+    }
+
+    public function edit(Announcement $announcement)
+    {
+        return view('admin.announcements.edit', compact('announcement'));
+    }
+
+    public function update(Request $request, Announcement $announcement)
+    {
+        $validated = $request->validate([
+            'title'       => 'required|string|max:255',
+            'category'    => 'required|string|max:100',
+            'description' => 'required|string',
+            'date'        => 'required|date',
+            'attachment'  => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+        ], [
+            'attachment.mimes' => 'Format lampiran harus PDF, DOC, atau DOCX.',
+            'attachment.max'   => 'Ukuran lampiran maksimal 5MB.',
+        ]);
+
+        if ($request->hasFile('attachment')) {
+            // Hapus file lama jika ada
+            if ($announcement->attachment) {
+                Storage::disk('public')->delete($announcement->attachment);
+            }
+            $validated['attachment'] = $request->file('attachment')
+                ->store('announcements', 'public');
+        }
+
+        $announcement->update($validated);
+
+        return redirect()
+            ->route('admin.announcements.index')
+            ->with('success', 'Pengumuman berhasil diperbarui.');
+    }
+
+    public function destroy(Announcement $announcement)
+    {
+        // Hapus file lampiran jika ada
+        if ($announcement->attachment) {
+            Storage::disk('public')->delete($announcement->attachment);
+        }
+
+        $announcement->delete();
+
+        return redirect()
+            ->route('admin.announcements.index')
+            ->with('success', 'Pengumuman berhasil dihapus.');
     }
 }

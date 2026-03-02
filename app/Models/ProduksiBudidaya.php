@@ -9,8 +9,7 @@ class ProduksiBudidaya extends Model
     protected $table = 'produksi_budidaya';
 
     protected $fillable = [
-        'kode_kecamatan',
-        'kecamatan',
+        'kecamatan_id',
         'komoditas',
         'januari',
         'februari',
@@ -43,4 +42,9 @@ class ProduksiBudidaya extends Model
         'desember'  => 'float',
         'jumlah'    => 'float',
     ];
+
+    public function kecamatan()
+    {
+        return $this->belongsTo(Kecamatan::class);
+    }
 }

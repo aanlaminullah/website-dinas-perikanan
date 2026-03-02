@@ -90,7 +90,7 @@
 
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Data</p>
 
-                <a href="{{ route('publikasi-data.index') }}"
+                <a href="{{ route('admin.publikasi-data.index') }}"
                     class="flex items-center gap-3 px-4 py-3 text-text hover:bg-primary-light hover:text-primary rounded-lg transition-colors">
                     <i class="bx bx-bar-chart-alt-2 text-xl"></i>
                     <span class="font-medium">Publikasi Data</span>

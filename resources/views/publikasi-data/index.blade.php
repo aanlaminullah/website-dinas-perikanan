@@ -78,9 +78,9 @@
                                             <td class="border border-gray-200 px-2 py-1.5 text-center align-middle"
                                                 rowspan="{{ $rows->count() }}">{{ $no++ }}</td>
                                             <td class="border border-gray-200 px-2 py-1.5 text-center align-middle"
-                                                rowspan="{{ $rows->count() }}">{{ $row->kode_kecamatan }}</td>
+                                                rowspan="{{ $rows->count() }}">{{ $row->kecamatan->kode }}</td>
                                             <td class="border border-gray-200 px-2 py-1.5 text-center align-middle font-medium"
-                                                rowspan="{{ $rows->count() }}">{{ $row->kecamatan }}</td>
+                                                rowspan="{{ $rows->count() }}">{{ $row->kecamatan->nama }}</td>
                                         @endif
                                         <td class="border border-gray-200 px-2 py-1.5">{{ $row->komoditas }}</td>
                                         @foreach (['januari', 'februari', 'maret', 'april', 'mei', 'juni', 'juli', 'agustus', 'september', 'oktober', 'november', 'desember'] as $bln)
