@@ -4,12 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Kecamatan;
 use App\Models\ProduksiBudidaya;
+use Illuminate\Http\Request;
+
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $tahun = date('Y');
+        $tahunTersedia = ProduksiBudidaya::selectRaw('DISTINCT tahun')
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+
+        $tahun = $request->get('tahun', $tahunTersedia->first() ?? date('Y'));
 
         $totalProduksi  = ProduksiBudidaya::where('tahun', $tahun)->sum('jumlah');
         $totalKomoditas = ProduksiBudidaya::where('tahun', $tahun)->distinct('komoditas')->count('komoditas');
@@ -31,8 +37,13 @@ class DashboardController extends Controller
             ->orderBy('kecamatan.kode')
             ->get();
 
+        $tahunList = ProduksiBudidaya::selectRaw('DISTINCT tahun')
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+
         return view('dashboard.index', compact(
             'tahun',
+            'tahunList',
             'totalProduksi',
             'totalKomoditas',
             'totalKecamatan',

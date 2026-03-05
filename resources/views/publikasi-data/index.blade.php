@@ -5,9 +5,21 @@
 @section('content')
     <div class="bg-gray-50 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-3xl font-heading font-bold text-gray-900 mb-8 border-l-4 border-fish-blue pl-4">
-                Publikasi Data Perikanan
-            </h2>
+            <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+                <h2 class="text-3xl font-heading font-bold text-gray-900 border-l-4 border-fish-blue pl-4">
+                    Publikasi Data Budidaya Perikanan
+                </h2>
+                <form method="GET" class="flex items-center gap-2">
+                    <label class="text-sm font-medium text-gray-600">Tahun:</label>
+                    <select name="tahun" onchange="this.form.submit()"
+                        class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-fish-blue">
+                        @foreach ($tahunList as $t)
+                            <option value="{{ $t }}" {{ $t == $tahun ? 'selected' : '' }}>{{ $t }}
+                            </option>
+                        @endforeach
+                    </select>
+                </form>
+            </div>
 
             <div class="mb-12">
                 <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
@@ -35,20 +47,8 @@
             </div>
 
             <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div
-                    class="p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                <div class="p-6 border-b border-gray-100">
                     <h3 class="font-bold text-lg text-gray-800">Laporan Data Produksi Perikanan Budidaya</h3>
-                    {{-- Filter Tahun --}}
-                    <form method="GET" class="flex items-center gap-2">
-                        <label class="text-sm font-medium text-gray-600">Tahun:</label>
-                        <select name="tahun" onchange="this.form.submit()"
-                            class="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-fish-blue">
-                            @foreach ($tahunList as $t)
-                                <option value="{{ $t }}" {{ $t == $tahun ? 'selected' : '' }}>{{ $t }}
-                                </option>
-                            @endforeach
-                        </select>
-                    </form>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-xs border-collapse">

@@ -25,12 +25,69 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                         </svg>
                     </span>
+
+                    {{-- Dropdown Desktop --}}
+                    <div
+                        class="absolute top-8 left-0 w-52 bg-white rounded-xl shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div
+                            class="absolute -top-1.5 left-4 w-3 h-3 bg-white border-l border-t border-gray-100 rotate-45">
+                        </div>
+                        <div class="p-2">
+                            <a href="{{ route('struktur-organisasi.index') }}"
+                                class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                                </svg>
+                                Struktur Organisasi
+                            </a>
+                            <a href="{{ route('visi-misi.index') }}"
+                                class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                                </svg>
+                                Visi & Misi
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
-                <a href="{{ url('publikasi-data') }}"
-                    class="{{ Request::is('publikasi-data') ? 'text-fish-blue font-semibold' : 'hover:text-fish-blue' }} transition">
-                    Publikasi Data
-                </a>
+                <div class="relative group cursor-pointer">
+                    <span
+                        class="{{ Request::is('publikasi-data*') ? 'text-fish-blue font-semibold' : 'hover:text-fish-blue' }} flex items-center gap-1 transition">
+                        Publikasi Data
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </span>
+
+                    {{-- Dropdown Desktop --}}
+                    <div
+                        class="absolute top-8 left-0 w-48 bg-white rounded-xl shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <div
+                            class="absolute -top-1.5 left-4 w-3 h-3 bg-white border-l border-t border-gray-100 rotate-45">
+                        </div>
+                        <div class="p-2">
+                            <a href="{{ route('publikasi-data.index') }}"
+                                class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition {{ Request::is('publikasi-data') ? 'text-fish-blue bg-blue-50 font-semibold' : '' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                </svg>
+                                Data Produksi
+                            </a>
+                            <a href="#"
+                                class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                                </svg>
+                                Data Tangkap
+                            </a>
+                        </div>
+                    </div>
+                </div>
                 <a href="#" class="hover:text-fish-blue transition">Berita</a>
                 <a href="{{ route('announcements.index') }}"
                     class="{{ Request::is('pengumuman*') ? 'text-fish-blue font-semibold' : 'hover:text-fish-blue' }} transition">
@@ -76,22 +133,44 @@
                 Beranda
             </a>
 
-            <a href="#"
-                class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:text-fish-blue hover:bg-gray-50 transition">
+            <div class="px-4 pt-2 pb-1">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Profil</p>
+            </div>
+            <a href="{{ route('struktur-organisasi.index') }}"
+                class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium {{ Request::is('struktur-organisasi*') ? 'text-fish-blue bg-blue-50 font-semibold' : 'text-gray-600 hover:text-fish-blue hover:bg-gray-50' }} transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
-                Profil
+                Struktur Organisasi
+            </a>
+            <a href="{{ route('visi-misi.index') }}"
+                class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium {{ Request::is('visi-misi*') ? 'text-fish-blue bg-blue-50 font-semibold' : 'text-gray-600 hover:text-fish-blue hover:bg-gray-50' }} transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                Visi & Misi
             </a>
 
-            <a href="{{ url('publikasi-data') }}"
+            <div class="px-4 pt-2 pb-1">
+                <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Publikasi Data</p>
+            </div>
+            <a href="{{ route('publikasi-data.index') }}"
                 class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium {{ Request::is('publikasi-data') ? 'text-fish-blue bg-blue-50 font-semibold' : 'text-gray-600 hover:text-fish-blue hover:bg-gray-50' }} transition">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                 </svg>
-                Publikasi Data
+                Data Produksi
+            </a>
+            <a href="#"
+                class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:text-fish-blue hover:bg-gray-50 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                </svg>
+                Data Tangkap
             </a>
 
             <a href="#"

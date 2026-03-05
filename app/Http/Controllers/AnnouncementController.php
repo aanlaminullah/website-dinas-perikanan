@@ -13,17 +13,33 @@ class AnnouncementController extends Controller
     // -------------------------------------------------------
     public function index()
     {
-        $announcements = Announcement::orderBy('date', 'desc')->get();
+        $announcements = Announcement::orderBy('date', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
         return view('announcements.index', compact('announcements'));
     }
 
+    public function show($id)
+    {
+        $announcement = Announcement::findOrFail($id);
+
+        $related = Announcement::where('id', '!=', $id)
+            ->where('category', $announcement->category)
+            ->orderBy('date', 'desc')
+            ->limit(3)
+            ->get();
+
+        return view('announcements.show', compact('announcement', 'related'));
+    }
     // -------------------------------------------------------
     // ADMIN CRUD
     // -------------------------------------------------------
     public function adminIndex()
     {
-        $announcements = Announcement::orderBy('date', 'desc')->paginate(10);
+        $announcements = Announcement::orderBy('date', 'desc')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
 
         return view('admin.announcements.index', compact('announcements'));
     }
@@ -46,7 +62,7 @@ class AnnouncementController extends Controller
             'attachment.max'   => 'Ukuran lampiran maksimal 5MB.',
         ]);
 
-        $validated['date'] = now();
+        // $validated['date'] = now();
 
         if ($request->hasFile('attachment')) {
             $validated['attachment'] = $request->file('attachment')
@@ -78,7 +94,7 @@ class AnnouncementController extends Controller
             'attachment.max'   => 'Ukuran lampiran maksimal 5MB.',
         ]);
 
-        $validated['date'] = now();
+        // $validated['date'] = now();
 
         if ($request->hasFile('attachment')) {
             // Hapus file lama jika ada

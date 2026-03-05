@@ -1,11 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AnnouncementController;
-use App\Http\Controllers\PublikasiDataController;
-use App\Http\Controllers\LandingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\PublikasiDataController;
+use App\Http\Controllers\StrukturOrganisasiController;
+use App\Http\Controllers\VisiMisiController;
+use Illuminate\Support\Facades\Route;
+
 
 // Route::get('/', function () {
 //     return view('home');
@@ -15,6 +18,9 @@ Route::get('/', [LandingController::class, 'index'])->name('landing');
 
 
 Route::get('/pengumuman', [AnnouncementController::class, 'index'])->name('announcements.index');
+Route::get('/pengumuman/{id}', [AnnouncementController::class, 'show'])->name('announcements.show');
+Route::get('/struktur-organisasi', [StrukturOrganisasiController::class, 'index'])->name('struktur-organisasi.index');
+Route::get('/visi-misi', [VisiMisiController::class, 'index'])->name('visi-misi.index');
 Route::get('/publikasi-data', [PublikasiDataController::class, 'index'])->name('publikasi-data.index');
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
@@ -37,6 +43,13 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::put('announcements/{announcement}',                      [AnnouncementController::class, 'update'])->name('announcements.update');
     Route::delete('announcements/{announcement}/remove-attachment', [AnnouncementController::class, 'removeAttachment'])->name('announcements.remove-attachment');
     Route::delete('announcements/{announcement}',                   [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
+
+    Route::resource('pejabat', \App\Http\Controllers\Admin\PejabatController::class)
+        ->names('pejabat');
+
+    Route::get('visi-misi',         [\App\Http\Controllers\Admin\VisiMisiController::class, 'index'])->name('visi-misi.index');
+    Route::get('visi-misi/edit',    [\App\Http\Controllers\Admin\VisiMisiController::class, 'edit'])->name('visi-misi.edit');
+    Route::put('visi-misi',         [\App\Http\Controllers\Admin\VisiMisiController::class, 'update'])->name('visi-misi.update');
 });
 
 // Auth routes

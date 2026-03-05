@@ -107,7 +107,7 @@
 
             <div class="lg:col-span-2 space-y-8">
                 <div class="flex justify-between items-center mb-6 border-b border-gray-200 pb-4">
-                    <h3 class="text-2xl font-heading font-bold text-gray-900 border-l-4 border-fish-blue pl-3">Kabar Bahari
+                    <h3 class="text-2xl font-heading font-bold text-gray-900 border-l-4 border-fish-blue pl-3">Berita
                     </h3>
                     <a href="#" class="text-sm font-semibold text-fish-blue hover:underline">Lihat Semua</a>
                 </div>
@@ -174,24 +174,23 @@
                     </div>
                     <div class="divide-y divide-gray-100 max-h-[500px] overflow-y-auto">
                         @forelse($latestAnnouncements as $announcement)
-                            <div
-                                class="p-4 hover:bg-gray-50 transition border-l-4 {{ $loop->first ? 'border-fish-accent' : 'border-transparent hover:border-fish-accent' }} cursor-pointer">
+                            <a href="{{ route('announcements.show', $announcement->id) }}"
+                                class="block p-4 hover:bg-gray-50 transition border-l-4 {{ $loop->first ? 'border-fish-accent' : 'border-transparent hover:border-fish-accent' }}">
                                 <span
                                     class="text-xs font-semibold {{ $loop->first ? 'text-fish-blue' : 'text-gray-500' }} mb-1 block">
                                     {{ \Carbon\Carbon::parse($announcement->date)->translatedFormat('d F Y') }}
                                 </span>
-                                <h5 class="text-sm font-bold text-gray-800 leading-snug mb-2">
+                                <h5
+                                    class="text-sm font-bold text-gray-800 leading-snug mb-2 hover:text-fish-blue transition">
                                     {{ $announcement->title }}
                                 </h5>
 
-                                {{-- Asumsi jika ada link atau file lampiran --}}
-                                @if (isset($announcement->attachment))
-                                    <a href="{{ asset('storage/' . $announcement->attachment) }}"
-                                        class="text-xs text-gray-500 flex items-center hover:text-fish-blue">
+                                @if ($announcement->attachment)
+                                    <span class="text-xs text-gray-500 flex items-center hover:text-fish-blue">
                                         Download Lampiran →
-                                    </a>
+                                    </span>
                                 @endif
-                            </div>
+                            </a>
                         @empty
                             <div class="p-8 text-center text-gray-500">
                                 <p class="text-sm italic">Belum ada pengumuman terbaru.</p>

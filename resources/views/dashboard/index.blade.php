@@ -7,6 +7,18 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 @endpush
 
+@section('header-actions')
+    <form method="GET" action="{{ route('dashboard') }}" class="flex items-center gap-2">
+        <label class="text-sm text-secondary">Tahun:</label>
+        <select name="tahun" onchange="this.form.submit()"
+            class="border border-gray-200 rounded-lg px-3 py-1.5 text-sm text-heading focus:outline-none focus:ring-2 focus:ring-primary bg-white">
+            @foreach ($tahunList as $t)
+                <option value="{{ $t }}" {{ $t == $tahun ? 'selected' : '' }}>{{ $t }}</option>
+            @endforeach
+        </select>
+    </form>
+@endsection
+
 @section('content')
     {{-- Welcome Banner --}}
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">

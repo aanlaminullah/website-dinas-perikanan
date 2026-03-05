@@ -99,9 +99,23 @@
 
                 <a href="{{ route('admin.announcements.index') }}"
                     class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-                        {{ request()->routeIs('admin.announcements.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+        {{ request()->routeIs('admin.announcements.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                     <i class="bx bxs-megaphone text-xl"></i>
                     <span class="font-medium">Pengumuman</span>
+                </a>
+
+                <a href="{{ route('admin.pejabat.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+        {{ request()->routeIs('admin.pejabat.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                    <i class="bx bx-group text-xl"></i>
+                    <span class="font-medium">Struktur Organisasi</span>
+                </a>
+
+                <a href="{{ route('admin.visi-misi.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+        {{ request()->routeIs('admin.visi-misi.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                    <i class="bx bx-shield-quarter text-xl"></i>
+                    <span class="font-medium">Visi & Misi</span>
                 </a>
             </nav>
         </aside>
