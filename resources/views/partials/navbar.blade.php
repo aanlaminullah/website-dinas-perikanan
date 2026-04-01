@@ -67,7 +67,9 @@
                 @endif
 
                 {{-- Dropdown Publikasi Data --}}
-                @if (setting_bool('modul_publikasi_data'))
+                @if (setting_bool('modul_publikasi_data') ||
+                        setting_bool('modul_data_tangkap') ||
+                        setting_bool('modul_publikasi_dokumen'))
                     <div class="relative group cursor-pointer">
                         <span
                             class="{{ Request::is('publikasi-data*') ? 'text-fish-blue font-semibold' : 'hover:text-fish-blue' }} flex items-center gap-1 transition">
@@ -78,29 +80,44 @@
                             </svg>
                         </span>
                         <div
-                            class="absolute top-8 left-0 w-48 bg-white rounded-xl shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                            class="absolute top-8 left-0 w-56 bg-white rounded-xl shadow-lg border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
                             <div
                                 class="absolute -top-1.5 left-4 w-3 h-3 bg-white border-l border-t border-gray-100 rotate-45">
                             </div>
                             <div class="p-2">
-                                <a href="{{ route('publikasi-data.index') }}"
-                                    class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition {{ Request::is('publikasi-data') ? 'text-fish-blue bg-blue-50 font-semibold' : '' }}">
-                                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                    </svg>
-                                    Data Produksi
-                                </a>
-                                <a href="#"
-                                    class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition">
-                                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor"
-                                        viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
-                                    </svg>
-                                    Data Tangkap
-                                </a>
+                                @if (setting_bool('modul_publikasi_data'))
+                                    <a href="{{ route('publikasi-data.index') }}"
+                                        class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition {{ Request::is('publikasi-data') ? 'text-fish-blue bg-blue-50 font-semibold' : '' }}">
+                                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                        Data Produksi
+                                    </a>
+                                @endif
+                                @if (setting_bool('modul_data_tangkap'))
+                                    <a href="#"
+                                        class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition">
+                                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                                        </svg>
+                                        Data Tangkap
+                                    </a>
+                                @endif
+                                @if (setting_bool('modul_publikasi_dokumen'))
+                                    <a href="{{ route('publikasi-dokumen.index') }}"
+                                        class="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm text-gray-600 hover:text-fish-blue hover:bg-blue-50 transition {{ Request::is('publikasi-dokumen*') ? 'text-fish-blue bg-blue-50 font-semibold' : '' }}">
+                                        <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor"
+                                            viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                                        </svg>
+                                        Publikasi Dokumen
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -140,7 +157,8 @@
             <button id="hamburgerBtn"
                 class="lg:hidden p-2 rounded-lg text-gray-600 hover:text-fish-blue hover:bg-gray-100 transition focus:outline-none">
                 <svg id="iconHamburger" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
                 <svg id="iconClose" class="w-6 h-6 hidden" fill="none" stroke="currentColor"
                     viewBox="0 0 24 24">
@@ -191,26 +209,42 @@
             @endif
 
             {{-- Publikasi Data Mobile --}}
-            @if (setting_bool('modul_publikasi_data'))
+            @if (setting_bool('modul_publikasi_data') ||
+                    setting_bool('modul_data_tangkap') ||
+                    setting_bool('modul_publikasi_dokumen'))
                 <div class="px-4 pt-2 pb-1">
                     <p class="text-xs font-semibold text-gray-400 uppercase tracking-wider">Publikasi Data</p>
                 </div>
-                <a href="{{ route('publikasi-data.index') }}"
-                    class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium {{ Request::is('publikasi-data') ? 'text-fish-blue bg-blue-50 font-semibold' : 'text-gray-600 hover:text-fish-blue hover:bg-gray-50' }} transition">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                    </svg>
-                    Data Produksi
-                </a>
-                <a href="#"
-                    class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:text-fish-blue hover:bg-gray-50 transition">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
-                    </svg>
-                    Data Tangkap
-                </a>
+                @if (setting_bool('modul_publikasi_data'))
+                    <a href="{{ route('publikasi-data.index') }}"
+                        class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium {{ Request::is('publikasi-data') ? 'text-fish-blue bg-blue-50 font-semibold' : 'text-gray-600 hover:text-fish-blue hover:bg-gray-50' }} transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Data Produksi
+                    </a>
+                @endif
+                @if (setting_bool('modul_data_tangkap'))
+                    <a href="#"
+                        class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:text-fish-blue hover:bg-gray-50 transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" />
+                        </svg>
+                        Data Tangkap
+                    </a>
+                @endif
+                @if (setting_bool('modul_publikasi_dokumen'))
+                    <a href="{{ route('publikasi-dokumen.index') }}"
+                        class="flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium {{ Request::is('publikasi-dokumen*') ? 'text-fish-blue bg-blue-50 font-semibold' : 'text-gray-600 hover:text-fish-blue hover:bg-gray-50' }} transition">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        Publikasi Dokumen
+                    </a>
+                @endif
             @endif
 
             {{-- Berita Mobile --}}

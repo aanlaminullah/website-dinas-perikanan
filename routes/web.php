@@ -9,6 +9,7 @@ use App\Http\Controllers\StrukturOrganisasiController;
 use App\Http\Controllers\VisiMisiController;
 use App\Http\Controllers\LensaKegiatanController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PublikasiDokumenController;
 
 
 // Route::get('/', function () {
@@ -24,6 +25,8 @@ Route::get('/struktur-organisasi', [StrukturOrganisasiController::class, 'index'
 Route::get('/visi-misi', [VisiMisiController::class, 'index'])->name('visi-misi.index')->middleware('modul:modul_visi_misi');
 Route::get('/publikasi-data', [PublikasiDataController::class, 'index'])->name('publikasi-data.index')->middleware('modul:modul_publikasi_data');
 Route::get('/lensa-kegiatan', [LensaKegiatanController::class, 'index'])->name('lensa-kegiatan.index');
+Route::get('/publikasi-dokumen', [PublikasiDokumenController::class, 'index'])->name('publikasi-dokumen.index')->middleware('modul:modul_publikasi_dokumen');
+Route::get('/publikasi-dokumen/{publikasiDokumen}/download', [PublikasiDokumenController::class, 'download'])->name('publikasi-dokumen.download')->middleware('modul:modul_publikasi_dokumen');
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::middleware('modul:modul_publikasi_data')->group(function () {
@@ -63,6 +66,17 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
     Route::get('settings',  [\App\Http\Controllers\Admin\SiteSettingController::class, 'index'])->name('settings.index');
     Route::put('settings',  [\App\Http\Controllers\Admin\SiteSettingController::class, 'update'])->name('settings.update');
+
+    Route::get('publikasi-dokumen',                                     [\App\Http\Controllers\Admin\PublikasiDokumenController::class, 'index'])->name('publikasi-dokumen.index');
+    Route::get('publikasi-dokumen/create',                              [\App\Http\Controllers\Admin\PublikasiDokumenController::class, 'create'])->name('publikasi-dokumen.create');
+    Route::post('publikasi-dokumen',                                    [\App\Http\Controllers\Admin\PublikasiDokumenController::class, 'store'])->name('publikasi-dokumen.store');
+    Route::get('publikasi-dokumen/{publikasiDokumen}/edit',             [\App\Http\Controllers\Admin\PublikasiDokumenController::class, 'edit'])->name('publikasi-dokumen.edit');
+    Route::put('publikasi-dokumen/{publikasiDokumen}',                  [\App\Http\Controllers\Admin\PublikasiDokumenController::class, 'update'])->name('publikasi-dokumen.update');
+    Route::delete('publikasi-dokumen/{publikasiDokumen}',               [\App\Http\Controllers\Admin\PublikasiDokumenController::class, 'destroy'])->name('publikasi-dokumen.destroy');
+
+
+    Route::post('instansi-terkait/reorder', [\App\Http\Controllers\Admin\InstansiTerkaitController::class, 'reorder'])->name('instansi-terkait.reorder');
+    Route::resource('instansi-terkait', \App\Http\Controllers\Admin\InstansiTerkaitController::class)->names('instansi-terkait');
 });
 
 // Auth routes

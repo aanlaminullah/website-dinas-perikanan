@@ -43,6 +43,8 @@ class SiteSettingController extends Controller
             'modul_berita',
             'modul_struktur_organisasi',
             'modul_visi_misi',
+            'modul_data_tangkap',
+            'modul_publikasi_dokumen',
         ];
         foreach ($modulKeys as $key) {
             SiteSetting::where('key', $key)->update([
@@ -52,7 +54,7 @@ class SiteSettingController extends Controller
 
         clear_settings_cache();
 
-        return redirect()->route('admin.settings.index')
+        return redirect()->route('admin.settings.index', ['tab' => $request->input('active_tab', 'identitas')])
             ->with('success', 'Pengaturan berhasil disimpan.');
     }
 }

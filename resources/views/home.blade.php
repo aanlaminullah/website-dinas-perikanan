@@ -14,10 +14,10 @@
 
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-28">
             <div class="max-w-2xl">
-                <div
+                {{-- <div
                     class="inline-flex items-center px-3 py-1 rounded-full bg-blue-50 text-fish-blue text-xs font-bold mb-6 border border-blue-100">
                     <span class="mr-2">🐟</span> POTENSI MARITIM
-                </div>
+                </div> --}}
                 <h2 class="text-4xl lg:text-5xl font-heading font-bold text-gray-900 leading-tight mb-6">
                     <span class="text-transparent bg-clip-text bg-gradient-to-r from-fish-blue to-blue-400">
                         {{ setting('hero_judul', 'Mewujudkan Perikanan Maju & Berkelanjutan') }}
@@ -251,19 +251,49 @@
             </div>
         </div>
 
-        <div class="border-b border-gray-800 bg-gray-800/50 py-8 mt-12">
-            <div class="max-w-7xl mx-auto px-4 text-center">
-                <p class="text-xs uppercase tracking-widest text-gray-500 mb-4">
-                    Instansi Terkait
-                </p>
-                <div
-                    class="flex flex-wrap justify-center gap-6 opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-                    <img src="{{ asset('img/logo-kemenperikan.png') }}" class="h-10" />
-                    <img src="{{ asset('img/logo-komdigi.png') }}" class="h-8" />
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Lambang_Polri.png" class="h-8" />
+        @if ($instansiTerkait->count() > 0)
+            <div class="border-b border-gray-800 bg-gray-800/50 py-8 mt-12">
+                <div class="max-w-7xl mx-auto px-4 text-center">
+                    <p class="text-xs uppercase tracking-widest text-gray-500 mb-6">Instansi Terkait</p>
+                    <div class="flex flex-wrap justify-center items-center gap-6">
+                        @foreach ($instansiTerkait as $instansi)
+                            @if ($instansi->url)
+                                <a href="{{ $instansi->url }}" target="_blank" rel="noopener"
+                                    class="group relative flex items-center justify-center opacity-60 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-300">
+                                    <div
+                                        class="w-12 h-12 rounded-full overflow-hidden ring-2 ring-transparent group-hover:ring-fish-blue/30 transition">
+                                        <img src="{{ Storage::url($instansi->logo) }}" alt="{{ $instansi->nama }}"
+                                            class="w-full h-full object-cover" />
+                                    </div>
+                                    <div
+                                        class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs font-medium px-2 py-1 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none">
+                                        {{ $instansi->nama }}
+                                        <div
+                                            class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900">
+                                        </div>
+                                    </div>
+                                </a>
+                            @else
+                                <div
+                                    class="group relative flex items-center justify-center opacity-60 hover:opacity-80 transition-all duration-300">
+                                    <div class="w-12 h-12 rounded-full overflow-hidden">
+                                        <img src="{{ Storage::url($instansi->logo) }}" alt="{{ $instansi->nama }}"
+                                            class="w-full h-full object-cover" />
+                                    </div>
+                                    <div
+                                        class="absolute -top-8 left-1/2 -translate-x-1/2 bg-gray-900 text-white text-xs font-medium px-2 py-1 rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-all duration-200 pointer-events-none">
+                                        {{ $instansi->nama }}
+                                        <div
+                                            class="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-900">
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
+                        @endforeach
+                    </div>
                 </div>
             </div>
-        </div>
+        @endif
     </section>
 
 @endsection

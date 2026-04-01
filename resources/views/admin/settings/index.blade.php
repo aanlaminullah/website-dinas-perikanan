@@ -5,10 +5,12 @@
 
 @section('content')
     <form method="POST" action="{{ route('admin.settings.update') }}" enctype="multipart/form-data">
-        @csrf @method('PUT')
+        @csrf
+        @method('PUT')
+        <input type="hidden" name="active_tab" id="active_tab" value="identitas">
 
         {{-- Tab Navigation --}}
-        <div x-data="{ tab: 'identitas' }" class="space-y-6">
+        <div x-data="{ tab: new URLSearchParams(window.location.search).get('tab') || 'identitas' }" class="space-y-6">
             <div class="flex gap-2 bg-card rounded-xl shadow-card p-2 w-fit">
                 @foreach ([
             'identitas' => 'Identitas',
@@ -16,7 +18,7 @@
             'warna' => 'Warna Tema',
             'modul' => 'Modul',
         ] as $key => $label)
-                    <button type="button" @click="tab = '{{ $key }}'"
+                    <button type="button" data-tab="{{ $key }}" @click="tab = '{{ $key }}'"
                         :class="tab === '{{ $key }}' ? 'bg-primary text-white shadow' :
                             'text-secondary hover:text-primary'"
                         class="px-4 py-2 rounded-lg text-sm font-semibold transition">
@@ -135,7 +137,9 @@
                 </p>
 
                 @foreach ([
-            'modul_publikasi_data' => ['label' => 'Publikasi Data', 'desc' => 'Data produksi & tangkap perikanan'],
+            'modul_publikasi_data' => ['label' => 'Data Produksi Budidaya', 'desc' => 'Data produksi budidaya perikanan'],
+            'modul_data_tangkap' => ['label' => 'Data Tangkap', 'desc' => 'Data produksi tangkap perikanan'],
+            'modul_publikasi_dokumen' => ['label' => 'Publikasi Dokumen', 'desc' => 'Dokumen publik seperti laporan, SK, peraturan'],
             'modul_pengumuman' => ['label' => 'Pengumuman', 'desc' => 'Pengumuman & informasi publik'],
             'modul_berita' => ['label' => 'Berita', 'desc' => 'Kabar & artikel berita'],
             'modul_struktur_organisasi' => ['label' => 'Struktur Organisasi', 'desc' => 'Data pejabat dinas'],

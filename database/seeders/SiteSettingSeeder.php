@@ -30,11 +30,13 @@ class SiteSettingSeeder extends Seeder
             ['key' => 'warna_aksen',    'value' => '#fbbf24',                             'type' => 'color',   'group' => 'warna'],
 
             // Modul
-            ['key' => 'modul_publikasi_data',      'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
-            ['key' => 'modul_pengumuman',           'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
-            ['key' => 'modul_berita',               'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
-            ['key' => 'modul_struktur_organisasi',  'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
-            ['key' => 'modul_visi_misi',            'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
+            ['key' => 'modul_publikasi_data',          'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
+            ['key' => 'modul_data_tangkap',            'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
+            ['key' => 'modul_publikasi_dokumen',       'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
+            ['key' => 'modul_pengumuman',              'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
+            ['key' => 'modul_berita',                  'value' => '0', 'type' => 'boolean', 'group' => 'modul'],
+            ['key' => 'modul_struktur_organisasi',     'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
+            ['key' => 'modul_visi_misi',               'value' => '1', 'type' => 'boolean', 'group' => 'modul'],
         ];
 
         foreach ($settings as $setting) {

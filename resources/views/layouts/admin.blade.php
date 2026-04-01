@@ -101,6 +101,15 @@
                     </a>
                 @endif
 
+                @if (setting_bool('modul_publikasi_dokumen'))
+                    <a href="{{ route('admin.publikasi-dokumen.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+            {{ request()->routeIs('admin.publikasi-dokumen.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        <i class="bx bx-file text-xl"></i>
+                        <span class="font-medium">Publikasi Dokumen</span>
+                    </a>
+                @endif
+
                 @if (setting_bool('modul_pengumuman'))
                     <a href="{{ route('admin.announcements.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
@@ -128,11 +137,20 @@
                     </a>
                 @endif
 
+
+
                 <a href="{{ route('admin.lensa-kegiatan.index') }}"
                     class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
         {{ request()->routeIs('admin.lensa-kegiatan.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                     <i class="bx bx-camera text-xl"></i>
                     <span class="font-medium">Lensa Kegiatan</span>
+                </a>
+
+                <a href="{{ route('admin.instansi-terkait.index') }}"
+                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+        {{ request()->routeIs('admin.instansi-terkait.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                    <i class="bx bx-buildings text-xl"></i>
+                    <span class="font-medium">Instansi Terkait</span>
                 </a>
 
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Sistem</p>
@@ -225,6 +243,14 @@
     </div>
 
     @stack('scripts')
+    <script>
+        document.querySelectorAll('[data-tab]').forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                const activeTabInput = document.getElementById('active_tab');
+                if (activeTabInput) activeTabInput.value = this.dataset.tab;
+            });
+        });
+    </script>
 </body>
 
 </html>
