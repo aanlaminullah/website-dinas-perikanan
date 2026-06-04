@@ -25,7 +25,10 @@
                 <div class="ml-3">
                     <h3 class="text-sm font-semibold text-red-800">Detail Kesalahan:</h3>
                     <div class="mt-2 text-sm text-red-700 space-y-1">
-                        @if ($errors->any())
+                        {{-- Error dari query param (paling reliable) --}}
+                        @if (!empty($ssoError))
+                            <p>{{ $ssoError }}</p>
+                        @elseif ($errors->any())
                             @foreach ($errors->all() as $error)
                                 <p>{{ $error }}</p>
                             @endforeach
@@ -42,7 +45,7 @@
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
                 </svg>
-                Coba Hubungkan Kembali via SSO
+                Coba Login Kembali via SSO
             </a>
 
             <a href="{{ route('landing') }}" class="w-full flex justify-center py-3 px-4 border border-gray-300 rounded-xl shadow-sm text-sm font-semibold text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-all duration-200">

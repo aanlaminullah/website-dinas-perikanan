@@ -16,8 +16,18 @@ class SsoController extends Controller
      */
     public function login(Request $request)
     {
-        if ($request->session()->has('errors') || $request->has('error') || $request->has('sso_error')) {
-            return view('auth.login-error');
+        // Cek error lewat query param (paling reliable, tidak tergantung session)
+        if ($request->query('sso_error')) {
+            return view('auth.login-error', [
+                'ssoError' => $request->query('sso_error'),
+            ]);
+        }
+
+        // Cek error lewat session flash (fallback)
+        if ($request->session()->has('errors')) {
+            return view('auth.login-error', [
+                'ssoError' => null,
+            ]);
         }
 
         return $this->redirect($request);
@@ -30,6 +40,11 @@ class SsoController extends Controller
     {
         $state = Str::random(40);
         $request->session()->put('sso_state', $state);
+
+        Log::info('SSO redirect: state disimpan ke session', [
+            'state' => $state,
+            'session_id' => $request->session()->getId(),
+        ]);
 
         $params = http_build_query([
             'client_id' => config('services.bds.client_id'),
@@ -49,16 +64,37 @@ class SsoController extends Controller
      */
     public function callback(Request $request)
     {
+        Log::info('SSO callback dipanggil', [
+            'session_id' => $request->session()->getId(),
+            'all_session_keys' => array_keys($request->session()->all()),
+            'has_sso_state' => $request->session()->has('sso_state'),
+            'request_state' => $request->input('state'),
+            'request_url' => $request->fullUrl(),
+            'is_secure' => $request->isSecure(),
+            'scheme' => $request->getScheme(),
+            'headers' => [
+                'x-forwarded-proto' => $request->header('X-Forwarded-Proto'),
+                'x-forwarded-for' => $request->header('X-Forwarded-For'),
+                'host' => $request->header('Host'),
+            ],
+        ]);
+
         // Validasi state untuk mencegah CSRF
         $state = $request->input('state');
         $sessionState = $request->session()->pull('sso_state');
+
         if ($state !== $sessionState) {
-            Log::warning('SSO state mismatch or session lost', [
+            Log::warning('SSO state mismatch atau session hilang', [
                 'request_state' => $state,
                 'session_state' => $sessionState,
+                'session_id' => $request->session()->getId(),
+                'session_all' => $request->session()->all(),
             ]);
-            return redirect()->route('login')->withErrors([
-                'sso' => 'Sesi SSO tidak valid. Silakan coba lagi.',
+
+            // PENTING: Kirim error lewat query param, BUKAN session flash
+            // Karena jika session bermasalah, flash data juga akan hilang → redirect loop
+            return redirect()->route('login', [
+                'sso_error' => 'Sesi SSO tidak valid (state mismatch). Session mungkin hilang saat redirect ke Keycloak. Silakan coba lagi.',
             ]);
         }
 
@@ -69,16 +105,16 @@ class SsoController extends Controller
                 'description' => $request->input('error_description'),
             ]);
 
-            return redirect()->route('login')->withErrors([
-                'sso' => $request->input('error_description', 'Login SSO gagal. Silakan coba lagi.'),
+            return redirect()->route('login', [
+                'sso_error' => $request->input('error_description', 'Login SSO gagal. Silakan coba lagi.'),
             ]);
         }
 
         $code = $request->input('code');
 
         if (!$code) {
-            return redirect()->route('login')->withErrors([
-                'sso' => 'Authorization code tidak ditemukan.',
+            return redirect()->route('login', [
+                'sso_error' => 'Authorization code tidak ditemukan.',
             ]);
         }
 
@@ -101,8 +137,8 @@ class SsoController extends Controller
                     'body' => $tokenResponse->body(),
                 ]);
 
-                return redirect()->route('login')->withErrors([
-                    'sso' => 'Gagal menukar authorization code. Silakan coba lagi.',
+                return redirect()->route('login', [
+                    'sso_error' => 'Gagal menukar authorization code (HTTP ' . $tokenResponse->status() . '). Silakan coba lagi.',
                 ]);
             }
 
@@ -114,8 +150,8 @@ class SsoController extends Controller
             $payload = $this->decodeJwtPayload($accessToken);
 
             if (!$payload) {
-                return redirect()->route('login')->withErrors([
-                    'sso' => 'Gagal membaca data token. Silakan coba lagi.',
+                return redirect()->route('login', [
+                    'sso_error' => 'Gagal membaca data token. Silakan coba lagi.',
                 ]);
             }
 
@@ -125,7 +161,7 @@ class SsoController extends Controller
             $nip = $payload['preferred_username'] ?? null;
             $sessionId = $payload['sid'] ?? $payload['session_state'] ?? null;
 
-            Log::info('SSO login attempt', [
+            Log::info('SSO login attempt - user data dari token', [
                 'sso_id' => $ssoId,
                 'email' => $email,
                 'name' => $name,
@@ -150,8 +186,8 @@ class SsoController extends Controller
                     'nip' => $nip,
                 ]);
 
-                return redirect()->route('login')->withErrors([
-                    'sso' => 'Akun dengan email "' . ($email ?? $nip ?? 'unknown') . '" belum terdaftar di sistem. Hubungi administrator untuk mendaftarkan akun.',
+                return redirect()->route('login', [
+                    'sso_error' => 'Akun dengan email "' . ($email ?? $nip ?? 'unknown') . '" belum terdaftar di sistem. Hubungi administrator untuk mendaftarkan akun.',
                 ]);
             }
 
@@ -171,16 +207,22 @@ class SsoController extends Controller
             $request->session()->put('sso_session_id', $sessionId);
             $request->session()->put('sso_access_token', $accessToken);
 
+            Log::info('SSO login berhasil', [
+                'user_id' => $user->id,
+                'nip' => $user->nip,
+                'session_id' => $request->session()->getId(),
+            ]);
+
             return redirect()->intended(route('dashboard'));
 
         } catch (\Exception $e) {
-            Log::error('SSO callback error', [
+            Log::error('SSO callback error (exception)', [
                 'message' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            return redirect()->route('login')->withErrors([
-                'sso' => 'Terjadi kesalahan saat proses login SSO. Silakan coba lagi.',
+            return redirect()->route('login', [
+                'sso_error' => 'Terjadi kesalahan saat proses login SSO: ' . $e->getMessage(),
             ]);
         }
     }

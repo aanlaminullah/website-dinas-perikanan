@@ -108,3 +108,60 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middl
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+
+// Debug route — HAPUS setelah masalah selesai
+Route::get('/debug/session', function (\Illuminate\Http\Request $request) {
+    $testKey = 'debug_test_' . time();
+    $request->session()->put($testKey, 'works');
+
+    return response()->json([
+        'timestamp' => now()->toDateTimeString(),
+        'session' => [
+            'driver' => config('session.driver'),
+            'id' => $request->session()->getId(),
+            'domain' => config('session.domain'),
+            'secure' => config('session.secure'),
+            'same_site' => config('session.same_site'),
+            'path' => config('session.path'),
+            'cookie_name' => config('session.cookie'),
+            'test_key_written' => $testKey,
+            'all_keys' => array_keys($request->session()->all()),
+        ],
+        'request' => [
+            'is_secure' => $request->isSecure(),
+            'scheme' => $request->getScheme(),
+            'url' => $request->url(),
+            'full_url' => $request->fullUrl(),
+            'host' => $request->getHost(),
+            'ip' => $request->ip(),
+        ],
+        'headers' => [
+            'x-forwarded-proto' => $request->header('X-Forwarded-Proto'),
+            'x-forwarded-for' => $request->header('X-Forwarded-For'),
+            'x-forwarded-host' => $request->header('X-Forwarded-Host'),
+            'host' => $request->header('Host'),
+        ],
+        'app' => [
+            'url' => config('app.url'),
+            'env' => config('app.env'),
+            'debug' => config('app.debug'),
+        ],
+        'cookies_received' => array_keys($request->cookies->all()),
+    ]);
+});
+
+// Debug route 2 — cek apakah session persist antara request
+Route::get('/debug/session-check', function (\Illuminate\Http\Request $request) {
+    $allKeys = array_keys($request->session()->all());
+    $debugKeys = array_filter($allKeys, fn($k) => str_starts_with($k, 'debug_test_'));
+
+    return response()->json([
+        'timestamp' => now()->toDateTimeString(),
+        'session_id' => $request->session()->getId(),
+        'session_persisted' => count($debugKeys) > 0,
+        'debug_keys_found' => array_values($debugKeys),
+        'all_session_keys' => $allKeys,
+        'cookies_received' => array_keys($request->cookies->all()),
+    ]);
+});
+
