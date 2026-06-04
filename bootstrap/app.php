@@ -13,6 +13,11 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'modul' => \App\Http\Middleware\CheckModul::class,
+            'role'  => \App\Http\Middleware\CheckRole::class,
+        ]);
+
+        $middleware->validateCsrfTokens(except: [
+            'auth/backchannel-logout',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'bds' => [
+        'client_id'     => env('BDS_CLIENT_ID'),
+        'client_secret' => env('BDS_CLIENT_SECRET'),
+        'base_url'      => env('BDS_SSO_URL'),
+        'redirect_uri'  => env('BDS_REDIRECT_URI'),
+    ],
+
 ];

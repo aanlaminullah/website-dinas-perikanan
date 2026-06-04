@@ -11,11 +11,11 @@ class AdminUserSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'admin@perikanan.go.id'],
+            ['nip' => '199903262025041004'],
             [
-                'name'     => 'Administrator',
-                'email'    => 'admin@perikanan.go.id',
-                'password' => Hash::make('password123'),
+                'name' => 'Racmawan Sidik Laminullah',
+                'email' => 'rlaminullah@gmail.com',
+                'role' => 'admin',
             ]
         );
     }

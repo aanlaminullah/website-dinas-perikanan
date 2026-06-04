@@ -92,12 +92,14 @@
                     <span class="font-medium">Dashboard</span>
                 </a>
 
-                <a href="{{ route('admin.carousel.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-        {{ request()->routeIs('admin.carousel.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
-                    <i class="bx bx-slideshow text-xl"></i>
-                    <span class="font-medium">Carousel</span>
-                </a>
+                @if (setting('hero_mode', 'carousel') === 'carousel')
+                    <a href="{{ route('admin.carousel.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+            {{ request()->routeIs('admin.carousel.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        <i class="bx bx-slideshow text-xl"></i>
+                        <span class="font-medium">Carousel</span>
+                    </a>
+                @endif
 
                 <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Data</p>
 
@@ -162,14 +164,23 @@
                     <span class="font-medium">Instansi Terkait</span>
                 </a>
 
-                <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Sistem</p>
+                @if (auth()->user()->isAdmin())
+                    <p class="px-4 text-xs font-semibold text-secondary uppercase mb-2 mt-6">Sistem</p>
 
-                <a href="{{ route('admin.settings.index') }}"
-                    class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-        {{ request()->routeIs('admin.settings.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
-                    <i class="bx bx-cog text-xl"></i>
-                    <span class="font-medium">Pengaturan</span>
-                </a>
+                    <a href="{{ route('admin.users.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+            {{ request()->routeIs('admin.users.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        <i class="bx bx-user-plus text-xl"></i>
+                        <span class="font-medium">Manajemen User</span>
+                    </a>
+
+                    <a href="{{ route('admin.settings.index') }}"
+                        class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
+            {{ request()->routeIs('admin.settings.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        <i class="bx bx-cog text-xl"></i>
+                        <span class="font-medium">Pengaturan</span>
+                    </a>
+                @endif
             </nav>
         </aside>
 
@@ -219,7 +230,7 @@
                                 </div>
                             </div>
                             <div class="p-2">
-                                <form method="POST" action="{{ route('logout') }}">
+                                <form method="POST" action="{{ Auth::user()->sso_id ? route('sso.logout') : route('logout') }}">
                                     @csrf
                                     <button type="submit"
                                         class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-danger hover:bg-danger/10 text-sm transition">
