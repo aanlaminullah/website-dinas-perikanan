@@ -12,6 +12,18 @@ use Illuminate\Support\Str;
 class SsoController extends Controller
 {
     /**
+     * Tampilkan halaman error jika ada masalah login, atau langsung redirect ke SSO jika bersih.
+     */
+    public function login(Request $request)
+    {
+        if ($request->session()->has('errors') || $request->has('error') || $request->has('sso_error')) {
+            return view('auth.login-error');
+        }
+
+        return $this->redirect($request);
+    }
+
+    /**
      * Redirect user ke halaman login Keycloak.
      */
     public function redirect(Request $request)
@@ -38,7 +50,13 @@ class SsoController extends Controller
     public function callback(Request $request)
     {
         // Validasi state untuk mencegah CSRF
-        if ($request->input('state') !== $request->session()->pull('sso_state')) {
+        $state = $request->input('state');
+        $sessionState = $request->session()->pull('sso_state');
+        if ($state !== $sessionState) {
+            Log::warning('SSO state mismatch or session lost', [
+                'request_state' => $state,
+                'session_state' => $sessionState,
+            ]);
             return redirect()->route('login')->withErrors([
                 'sso' => 'Sesi SSO tidak valid. Silakan coba lagi.',
             ]);

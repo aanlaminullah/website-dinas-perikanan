@@ -99,7 +99,7 @@ Route::post('/auth/backchannel-logout', [SsoController::class, 'backchannelLogou
 
 // Auth routes
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [SsoController::class, 'redirect'])->name('login');
+    Route::get('/login', [SsoController::class, 'login'])->name('login');
 });
 
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth');
