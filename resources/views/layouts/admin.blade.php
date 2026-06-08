@@ -95,7 +95,7 @@
                 @if (setting('hero_mode', 'carousel') === 'carousel')
                     <a href="{{ route('admin.carousel.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-            {{ request()->routeIs('admin.carousel.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        {{ request()->routeIs('admin.carousel.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                         <i class="bx bx-slideshow text-xl"></i>
                         <span class="font-medium">Carousel</span>
                     </a>
@@ -106,7 +106,7 @@
                 @if (setting_bool('modul_publikasi_data'))
                     <a href="{{ route('admin.publikasi-data.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-                        {{ request()->routeIs('admin.publikasi-data.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                                {{ request()->routeIs('admin.publikasi-data.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                         <i class="bx bx-bar-chart-alt-2 text-xl"></i>
                         <span class="font-medium">Publikasi Data</span>
                     </a>
@@ -115,7 +115,7 @@
                 @if (setting_bool('modul_publikasi_dokumen'))
                     <a href="{{ route('admin.publikasi-dokumen.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-            {{ request()->routeIs('admin.publikasi-dokumen.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        {{ request()->routeIs('admin.publikasi-dokumen.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                         <i class="bx bx-file text-xl"></i>
                         <span class="font-medium">Publikasi Dokumen</span>
                     </a>
@@ -124,7 +124,7 @@
                 @if (setting_bool('modul_pengumuman'))
                     <a href="{{ route('admin.announcements.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-        {{ request()->routeIs('admin.announcements.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        {{ request()->routeIs('admin.announcements.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                         <i class="bx bxs-megaphone text-xl"></i>
                         <span class="font-medium">Pengumuman</span>
                     </a>
@@ -133,7 +133,7 @@
                 @if (setting_bool('modul_struktur_organisasi'))
                     <a href="{{ route('admin.pejabat.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-        {{ request()->routeIs('admin.pejabat.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        {{ request()->routeIs('admin.pejabat.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                         <i class="bx bx-group text-xl"></i>
                         <span class="font-medium">Struktur Organisasi</span>
                     </a>
@@ -142,7 +142,7 @@
                 @if (setting_bool('modul_visi_misi'))
                     <a href="{{ route('admin.visi-misi.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-        {{ request()->routeIs('admin.visi-misi.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        {{ request()->routeIs('admin.visi-misi.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                         <i class="bx bx-shield-quarter text-xl"></i>
                         <span class="font-medium">Visi & Misi</span>
                     </a>
@@ -169,14 +169,14 @@
 
                     <a href="{{ route('admin.users.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-            {{ request()->routeIs('admin.users.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        {{ request()->routeIs('admin.users.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                         <i class="bx bx-user-plus text-xl"></i>
                         <span class="font-medium">Manajemen User</span>
                     </a>
 
                     <a href="{{ route('admin.settings.index') }}"
                         class="flex items-center gap-3 px-4 py-3 rounded-lg transition-all
-            {{ request()->routeIs('admin.settings.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
+                        {{ request()->routeIs('admin.settings.*') ? 'bg-primary text-white shadow-md shadow-primary/30' : 'text-text hover:bg-primary-light hover:text-primary' }}">
                         <i class="bx bx-cog text-xl"></i>
                         <span class="font-medium">Pengaturan</span>
                     </a>
@@ -230,7 +230,8 @@
                                 </div>
                             </div>
                             <div class="p-2">
-                                <form method="POST" action="{{ Auth::user()->sso_id ? route('sso.logout') : route('logout') }}">
+                                <form method="POST"
+                                    action="{{ Auth::user()->sso_id ? route('sso.logout') : route('logout') }}">
                                     @csrf
                                     <button type="submit"
                                         class="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-danger hover:bg-danger/10 text-sm transition">
@@ -268,8 +269,8 @@
 
     @stack('scripts')
     <script>
-        document.querySelectorAll('[data-tab]').forEach(function(tab) {
-            tab.addEventListener('click', function() {
+        document.querySelectorAll('[data-tab]').forEach(function (tab) {
+            tab.addEventListener('click', function () {
                 const activeTabInput = document.getElementById('active_tab');
                 if (activeTabInput) activeTabInput.value = this.dataset.tab;
             });
@@ -295,10 +296,10 @@
             _loading.classList.remove('opacity-100');
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Semua form submit
-            document.querySelectorAll('form').forEach(function(form) {
-                form.addEventListener('submit', function(e) {
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function (e) {
                     const hasConfirm = form.getAttribute('onsubmit');
                     if (hasConfirm) {
                         const confirmed = confirm(form.getAttribute('onsubmit').replace(
@@ -311,7 +312,7 @@
             });
 
             // Semua link navigasi sidebar & header (kecuali yang buka tab baru)
-            document.querySelectorAll('a[href]').forEach(function(link) {
+            document.querySelectorAll('a[href]').forEach(function (link) {
                 const href = link.getAttribute('href');
                 if (
                     !href ||
@@ -322,13 +323,13 @@
                     link.getAttribute('target') === '_blank'
                 ) return;
 
-                link.addEventListener('click', function(e) {
+                link.addEventListener('click', function (e) {
                     showLoading();
                 });
             });
 
             // Sembunyikan loading saat halaman selesai load (back/forward)
-            window.addEventListener('pageshow', function() {
+            window.addEventListener('pageshow', function () {
                 hideLoading();
             });
         });
